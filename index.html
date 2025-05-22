@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>MediQuick Login</title>
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+  <div class="logo">
+    <img src="assets/logo.svg" alt="MediQuick Logo"/>
+    <h1>MediQuick</h1>
+    <p class="subtitle">Medicines delivered in 10 minutes</p>
+  </div>
+
+  <div class="card">
+    <div class="card-header">
+      <i>👤</i> Welcome Back!
+    </div>
+
+    <p style="margin: 16px 0 8px; color: #555;">Login for quick medicine delivery</p>
+    <form id="loginForm">
+      <input type="tel" id="phoneInput" placeholder="Enter your mobile number" required />
+      <button class="otp-btn" type="submit">Get OTP</button>
+    </form>
+
+    <div id="errorMessage" class="error-message"></div>
+
+    <div id="otpContainer" class="otp-input-container">
+      <p style="text-align: center; margin-bottom: 12px;">Enter the OTP sent to your phone</p>
+      <div class="otp-input">
+        <input type="text" class="otp-digit" maxlength="1" pattern="[0-9]" required />
+        <input type="text" class="otp-digit" maxlength="1" pattern="[0-9]" required />
+        <input type="text" class="otp-digit" maxlength="1" pattern="[0-9]" required />
+        <input type="text" class="otp-digit" maxlength="1" pattern="[0-9]" required />
+      </div>
+    </div>
+
+    <div class="divider">or continue with</div>
+
+    <div class="social-btn" data-provider="google">
+      <img src="https://img.icons8.com/color/20/google-logo.png" alt="Google" />
+      Continue with Google
+    </div>
+    <div class="social-btn" data-provider="apple">
+      <img src="https://img.icons8.com/ios-filled/20/000000/mac-os.png" alt="Apple" />
+      Continue with Apple
+    </div>
+    <div class="social-btn guest-btn" data-provider="guest">
+      <img src="https://img.icons8.com/ios/20/calendar--v1.png" alt="Guest" />
+      Continue as Guest
+    </div>
+
+    <div class="footer">
+      New to MediQuick? <a href="#">Create account</a>
+    </div>
+  </div>
+
+  <script src="js/login.js"></script>
+</body>
+</html>
+
