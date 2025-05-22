@@ -1,0 +1,160 @@
+body {
+  margin: 0;
+  font-family: 'Segoe UI', sans-serif;
+  background-color: #f2f4f8;
+}
+
+.navbar {
+  background-color: white;
+  padding: 10px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+}
+
+.navbar-left {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.logo {
+  font-weight: bold;
+  font-size: 20px;
+  color: #00b386;
+  text-decoration: none;
+}
+
+.location {
+  font-size: 14px;
+  color: #333;
+}
+
+.search-bar {
+  flex: 1;
+  margin: 0 20px;
+}
+
+.search-bar input {
+  width: 100%;
+  padding: 10px;
+  border-radius: 10px;
+  border: 1px solid #ccc;
+}
+
+.nav-actions {
+  display: flex;
+  gap: 10px;
+}
+
+.nav-button {
+  padding: 10px 16px;
+  background-color: #00b386;
+  color: white;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  font-weight: 500;
+  text-decoration: none;
+}
+
+.nav-button:hover {
+  background-color: #009e75;
+}
+
+.categories {
+  display: flex;
+  overflow-x: auto;
+  padding: 16px 20px;
+  gap: 16px;
+  background-color: white;
+}
+
+.category-item {
+  text-align: center;
+  min-width: 70px;
+  font-size: 14px;
+  color: #333;
+}
+
+.category-item img {
+  width: 40px;
+  height: 40px;
+  margin-bottom: 6px;
+}
+
+.promo-banner {
+  margin: 20px;
+  background-color: #00b386;
+  color: white;
+  padding: 16px;
+  border-radius: 12px;
+  font-weight: bold;
+  font-size: 16px;
+}
+
+.medicine-list {
+  padding: 0 20px 40px;
+}
+
+.medicine-card {
+  background-color: white;
+  border-radius: 16px;
+  padding: 16px;
+  margin-top: 12px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.med-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.med-title {
+  font-weight: bold;
+  margin-bottom: 4px;
+}
+
+.med-type {
+  background-color: #f0f0f0;
+  font-size: 12px;
+  color: #666;
+  padding: 2px 6px;
+  border-radius: 6px;
+  display: inline-block;
+  margin-bottom: 4px;
+}
+
+.med-category {
+  font-size: 13px;
+  color: #999;
+}
+
+.med-price {
+  font-weight: bold;
+  color: #00b386;
+  margin-top: 6px;
+}
+
+.add-btn {
+  background-color: #00b386;
+  color: white;
+  padding: 10px 14px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.add-btn:hover {
+  background-color: #009e75;
+}
+
+@media (max-width: 768px) {
+  .search-bar {
+    display: none;
+  }
+} 
