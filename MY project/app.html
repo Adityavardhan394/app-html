@@ -1,0 +1,953 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MediQuick - Medicine Delivery</title>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"/>
+    <style>
+        :root {
+            --primary: #00b386;
+            --primary-dark: #009973;
+            --primary-light: rgba(0, 179, 134, 0.1);
+            --secondary: #4a90e2;
+            --accent: #ff6b6b;
+            --text-dark: #2c3e50;
+            --text-light: #666;
+            --background: #f8fafb;
+            --white: #ffffff;
+            --shadow: 0 8px 30px rgba(0,0,0,0.05);
+            --shadow-hover: 0 15px 40px rgba(0,0,0,0.1);
+            --gradient: linear-gradient(135deg, var(--primary), var(--secondary));
+            --card-radius: 24px;
+            --transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+        }
+
+        body {
+            background: var(--background);
+            min-height: 100vh;
+            display: flex;
+        }
+
+        /* Sidebar Styles */
+        .sidebar {
+            width: 280px;
+            background: var(--white);
+            padding: 24px;
+            display: flex;
+            flex-direction: column;
+            border-right: 1px solid rgba(0,0,0,0.1);
+            position: fixed;
+            height: 100vh;
+            transition: transform 0.3s ease;
+        }
+
+        .logo-container {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px;
+            margin-bottom: 32px;
+        }
+
+        .logo-container img {
+            width: 40px;
+            height: 40px;
+        }
+
+        .logo-container h1 {
+            font-size: 24px;
+            font-weight: 700;
+            background: var(--gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .nav-menu {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .nav-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px;
+            border-radius: 12px;
+            color: var(--text-light);
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .nav-item:hover {
+            background: var(--primary-light);
+            color: var(--primary);
+        }
+
+        .nav-item.active {
+            background: var(--primary);
+            color: var(--white);
+        }
+
+        .nav-item i {
+            font-size: 24px;
+        }
+
+        /* Main Content Styles */
+        .main-content {
+            flex: 1;
+            margin-left: 280px;
+            padding: 32px;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 32px;
+        }
+
+        .search-bar {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            background: var(--white);
+            padding: 12px 20px;
+            border-radius: 12px;
+            box-shadow: var(--shadow);
+            width: 400px;
+        }
+
+        .search-bar input {
+            border: none;
+            outline: none;
+            width: 100%;
+            font-size: 16px;
+        }
+
+        .user-menu {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .notification-btn {
+            background: var(--white);
+            border: none;
+            padding: 12px;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .notification-btn:hover {
+            background: var(--primary-light);
+            color: var(--primary);
+        }
+
+        .guest-badge {
+            background: var(--primary-light);
+            color: var(--primary);
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        /* Quick Actions */
+        .quick-actions {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 24px;
+            margin-bottom: 32px;
+        }
+
+        .action-card {
+            background: var(--white);
+            padding: 24px;
+            border-radius: 16px;
+            box-shadow: var(--shadow);
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .action-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-hover);
+        }
+
+        .action-card i {
+            font-size: 32px;
+            color: var(--primary);
+            margin-bottom: 16px;
+        }
+
+        .action-card h3 {
+            font-size: 18px;
+            margin-bottom: 8px;
+            color: var(--text-dark);
+        }
+
+        .action-card p {
+            color: var(--text-light);
+            font-size: 14px;
+        }
+
+        /* Medicine Categories */
+        .categories {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 24px;
+        }
+
+        .category-card {
+            background: var(--white);
+            padding: 20px;
+            border-radius: 16px;
+            text-align: center;
+            box-shadow: var(--shadow);
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .category-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-hover);
+        }
+
+        .category-card img {
+            width: 64px;
+            height: 64px;
+            margin-bottom: 16px;
+        }
+
+        .category-card h3 {
+            font-size: 16px;
+            color: var(--text-dark);
+            margin-bottom: 8px;
+        }
+
+        .category-card p {
+            color: var(--text-light);
+            font-size: 14px;
+        }
+
+        /* Enhanced Category Section */
+        .categories-container {
+            margin-top: 40px;
+        }
+
+        .categories-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 24px;
+        }
+
+        .categories-title {
+            font-size: 24px;
+            color: var(--text-dark);
+            font-weight: 700;
+        }
+
+        .view-all {
+            color: var(--primary);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            font-weight: 500;
+            transition: var(--transition);
+        }
+
+        .view-all:hover {
+            transform: translateX(4px);
+        }
+
+        .categories-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 24px;
+            margin-bottom: 40px;
+        }
+
+        .category-card {
+            background: var(--white);
+            border-radius: var(--card-radius);
+            padding: 24px;
+            position: relative;
+            overflow: hidden;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            border: 2px solid transparent;
+        }
+
+        .category-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--primary-light);
+            box-shadow: var(--shadow-hover);
+        }
+
+        .category-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(45deg, transparent, var(--primary-light));
+            opacity: 0;
+            transition: var(--transition);
+        }
+
+        .category-card:hover::before {
+            opacity: 1;
+        }
+
+        .category-icon {
+            width: 80px;
+            height: 80px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 20px;
+            background: var(--primary-light);
+            position: relative;
+            transition: var(--transition);
+        }
+
+        .category-card:hover .category-icon {
+            transform: scale(1.1) rotate(5deg);
+        }
+
+        .category-icon img {
+            width: 48px;
+            height: 48px;
+            transition: var(--transition);
+        }
+
+        .category-content {
+            flex: 1;
+        }
+
+        .category-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--text-dark);
+            margin-bottom: 8px;
+        }
+
+        .category-stats {
+            display: flex;
+            gap: 16px;
+            font-size: 14px;
+            color: var(--text-light);
+        }
+
+        .stat {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .stat i {
+            font-size: 16px;
+            color: var(--primary);
+        }
+
+        .featured-categories {
+            margin-bottom: 40px;
+        }
+
+        .featured-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 24px;
+        }
+
+        .featured-card {
+            background: var(--white);
+            border-radius: var(--card-radius);
+            padding: 32px;
+            position: relative;
+            overflow: hidden;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            min-height: 200px;
+        }
+
+        .featured-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, var(--primary-light), transparent);
+            opacity: 0.1;
+            transition: var(--transition);
+        }
+
+        .featured-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-hover);
+        }
+
+        .featured-card:hover::before {
+            opacity: 0.2;
+        }
+
+        .featured-content {
+            position: relative;
+            z-index: 1;
+        }
+
+        .featured-title {
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--text-dark);
+            margin-bottom: 12px;
+        }
+
+        .featured-description {
+            color: var(--text-light);
+            margin-bottom: 20px;
+            max-width: 280px;
+        }
+
+        .featured-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 12px 24px;
+            background: var(--primary);
+            color: var(--white);
+            border-radius: 12px;
+            font-weight: 500;
+            transition: var(--transition);
+            border: none;
+            cursor: pointer;
+        }
+
+        .featured-button:hover {
+            background: var(--primary-dark);
+            transform: translateX(4px);
+        }
+
+        .featured-image {
+            width: 160px;
+            height: 160px;
+            object-fit: contain;
+            transform: rotate(-5deg);
+            transition: var(--transition);
+        }
+
+        .featured-card:hover .featured-image {
+            transform: rotate(0deg) scale(1.1);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 1200px) {
+            .featured-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .categories-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .featured-card {
+                flex-direction: column;
+                text-align: center;
+                padding: 24px;
+            }
+
+            .featured-description {
+                margin: 0 auto 20px;
+            }
+
+            .featured-image {
+                width: 120px;
+                height: 120px;
+                margin-top: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Sidebar -->
+    <aside class="sidebar">
+        <div class="logo-container">
+            <img src="assets/logo.svg" alt="MediQuick Logo">
+            <h1>MediQuick</h1>
+        </div>
+        <nav class="nav-menu">
+            <a href="app.html" class="nav-item active">
+                <i class="material-icons">dashboard</i>
+                Dashboard
+            </a>
+            <a href="medicines.html" class="nav-item">
+                <i class="material-icons">local_pharmacy</i>
+                Medicines
+            </a>
+            <a href="cart.html" class="nav-item">
+                <i class="material-icons">shopping_cart</i>
+                Cart
+            </a>
+            <a href="track-order.html" class="nav-item">
+                <i class="material-icons">local_shipping</i>
+                Orders
+            </a>
+            <a href="emergency.html" class="nav-item">
+                <i class="material-icons">emergency</i>
+                Emergency
+            </a>
+            <a href="support.html" class="nav-item">
+                <i class="material-icons">support_agent</i>
+                Support
+            </a>
+            <a href="profile.html" class="nav-item">
+                <i class="material-icons">person</i>
+                Profile
+            </a>
+        </nav>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <header class="header">
+            <div class="search-bar">
+                <i class="material-icons">search</i>
+                <input type="text" placeholder="Search for medicines...">
+            </div>
+            <div class="user-menu">
+                <button class="notification-btn">
+                    <i class="material-icons">notifications</i>
+                </button>
+                <div class="guest-badge" id="userBadge">
+                    <i class="material-icons">person_outline</i>
+                    <span id="userName">Loading...</span>
+                </div>
+            </div>
+        </header>
+
+        <!-- Welcome Message -->
+        <div class="welcome-message" style="margin-bottom: 32px;">
+            <h1 style="color: var(--text-dark); font-size: 28px;">Welcome, <span id="welcomeName">User</span>!</h1>
+            <p style="color: var(--text-light); margin-top: 8px;">Find and order your medicines with ease.</p>
+        </div>
+
+        <!-- Quick Actions -->
+        <section class="quick-actions">
+            <div class="action-card" onclick="window.location.href='prescription.html'">
+                <i class="material-icons">upload_file</i>
+                <h3>Upload Prescription</h3>
+                <p>Quick order with prescription</p>
+            </div>
+            <div class="action-card" onclick="window.location.href='track-order.html'">
+                <i class="material-icons">local_shipping</i>
+                <h3>Track Order</h3>
+                <p>Check your order status</p>
+            </div>
+            <div class="action-card" onclick="window.location.href='emergency.html'">
+                <i class="material-icons">emergency</i>
+                <h3>Emergency Order</h3>
+                <p>Get medicines ASAP</p>
+            </div>
+            <div class="action-card" onclick="window.location.href='support.html'">
+                <i class="material-icons">support_agent</i>
+                <h3>24/7 Support</h3>
+                <p>Get help anytime</p>
+            </div>
+        </section>
+
+        <!-- Featured Categories -->
+        <section class="featured-categories">
+            <div class="categories-header">
+                <h2 class="categories-title">Featured Collections</h2>
+                <a href="#" class="view-all">View All <i class="material-icons">arrow_forward</i></a>
+            </div>
+            <div class="featured-grid">
+                <div class="featured-card">
+                    <div class="featured-content">
+                        <h3 class="featured-title">Immunity Boosters</h3>
+                        <p class="featured-description">Natural supplements to strengthen your immune system</p>
+                        <button class="featured-button">
+                            Explore Now
+                            <i class="material-icons">trending_flat</i>
+                        </button>
+                    </div>
+                    <img src="assets/categories/immunity.svg" alt="Immunity" class="featured-image">
+                </div>
+                <div class="featured-card">
+                    <div class="featured-content">
+                        <h3 class="featured-title">Wellness Essential</h3>
+                        <p class="featured-description">Complete range of daily health supplements</p>
+                        <button class="featured-button">
+                            Shop Now
+                            <i class="material-icons">trending_flat</i>
+                        </button>
+                    </div>
+                    <img src="assets/categories/wellness.svg" alt="Wellness" class="featured-image">
+                </div>
+            </div>
+        </section>
+
+        <!-- Main Categories -->
+        <section class="categories-container">
+            <div class="categories-header">
+                <h2 class="categories-title">Shop by Category</h2>
+                <a href="#" class="view-all">Browse All Categories <i class="material-icons">arrow_forward</i></a>
+            </div>
+            <div class="categories-grid">
+                <div class="category-card">
+                    <div class="category-icon">
+                        <img src="assets/categories/prescription.svg" alt="Prescription">
+                    </div>
+                    <div class="category-content">
+                        <h3 class="category-title">Prescription Medicines</h3>
+                        <div class="category-stats">
+                            <span class="stat">
+                                <i class="material-icons">medication</i>
+                                1000+ Items
+                            </span>
+                            <span class="stat">
+                                <i class="material-icons">local_shipping</i>
+                                2hr Delivery
+                            </span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="category-card">
+                    <div class="category-icon">
+                        <img src="assets/categories/diabetes.svg" alt="Diabetes">
+                    </div>
+                    <div class="category-content">
+                        <h3 class="category-title">Diabetes Care</h3>
+                        <div class="category-stats">
+                            <span class="stat">
+                                <i class="material-icons">medication</i>
+                                300+ Items
+                            </span>
+                            <span class="stat">
+                                <i class="material-icons">verified</i>
+                                Certified
+                            </span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="category-card">
+                    <div class="category-icon">
+                        <img src="assets/categories/cardiac.svg" alt="Cardiac">
+                    </div>
+                    <div class="category-content">
+                        <h3 class="category-title">Heart Health</h3>
+                        <div class="category-stats">
+                            <span class="stat">
+                                <i class="material-icons">medication</i>
+                                400+ Items
+                            </span>
+                            <span class="stat">
+                                <i class="material-icons">favorite</i>
+                                Essential
+                            </span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="category-card">
+                    <div class="category-icon">
+                        <img src="assets/categories/vitamins.svg" alt="Vitamins">
+                    </div>
+                    <div class="category-content">
+                        <h3 class="category-title">Vitamins & Nutrition</h3>
+                        <div class="category-stats">
+                            <span class="stat">
+                                <i class="material-icons">medication</i>
+                                600+ Items
+                            </span>
+                            <span class="stat">
+                                <i class="material-icons">star</i>
+                                Top Rated
+                            </span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="category-card">
+                    <div class="category-icon">
+                        <img src="assets/categories/ayurveda.svg" alt="Ayurveda">
+                    </div>
+                    <div class="category-content">
+                        <h3 class="category-title">Ayurvedic Care</h3>
+                        <div class="category-stats">
+                            <span class="stat">
+                                <i class="material-icons">medication</i>
+                                500+ Items
+                            </span>
+                            <span class="stat">
+                                <i class="material-icons">eco</i>
+                                Natural
+                            </span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="category-card">
+                    <div class="category-icon">
+                        <img src="assets/categories/personal-care.svg" alt="Personal Care">
+                    </div>
+                    <div class="category-content">
+                        <h3 class="category-title">Personal Care</h3>
+                        <div class="category-stats">
+                            <span class="stat">
+                                <i class="material-icons">medication</i>
+                                800+ Items
+                            </span>
+                            <span class="stat">
+                                <i class="material-icons">thumb_up</i>
+                                Best Sellers
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <script>
+        // Check if user is logged in
+        function checkSession() {
+            const guestSession = localStorage.getItem('guestSession');
+            const isLoggedIn = localStorage.getItem('isLoggedIn');
+            
+            if (!isLoggedIn || !guestSession) {
+                console.log('No valid session found, redirecting to login...');
+                window.location.href = 'index.html';
+                return false;
+            }
+
+            try {
+                // Parse session data
+                const session = JSON.parse(guestSession);
+                
+                // Update user name display
+                const userBadge = document.getElementById('userBadge');
+                const userName = document.getElementById('userName');
+                const welcomeName = document.getElementById('welcomeName');
+                
+                if (session.name) {
+                    userName.textContent = session.name;
+                    welcomeName.textContent = session.name;
+                }
+
+                // Check session expiry
+                const loginTime = new Date(session.loginTime);
+                const now = new Date();
+                const hoursSinceLogin = (now - loginTime) / (1000 * 60 * 60);
+                
+                if (hoursSinceLogin >= 24) {
+                    console.log('Session expired, redirecting to login...');
+                    localStorage.clear();
+                    window.location.href = 'index.html';
+                    return false;
+                }
+
+                // Update last activity
+                session.lastActivity = new Date().toISOString();
+                localStorage.setItem('guestSession', JSON.stringify(session));
+                
+                // Update badge appearance for guest
+                if (session.userType === 'guest') {
+                    userBadge.style.backgroundColor = 'var(--primary-light)';
+                    userBadge.style.color = 'var(--primary)';
+                }
+                
+                return true;
+            } catch (error) {
+                console.error('Error checking session:', error);
+                localStorage.clear();
+                window.location.href = 'index.html';
+                return false;
+            }
+        }
+
+        // Check session on load
+        window.addEventListener('load', checkSession);
+
+        // Check session periodically (every 5 minutes)
+        setInterval(checkSession, 5 * 60 * 1000);
+
+        // Add logout functionality
+        const userBadge = document.getElementById('userBadge');
+        if (userBadge) {
+            userBadge.style.cursor = 'pointer';
+            userBadge.title = 'Click to logout';
+            userBadge.addEventListener('click', () => {
+                if (confirm('Are you sure you want to logout?')) {
+                    localStorage.clear();
+                    window.location.href = 'index.html';
+                }
+            });
+        }
+
+        // Handle navigation
+        document.querySelectorAll('.nav-item').forEach(item => {
+            item.addEventListener('click', (e) => {
+                e.preventDefault();
+                const href = e.currentTarget.getAttribute('href');
+                if (href && href !== '#') {
+                    window.location.href = href;
+                }
+            });
+        });
+
+        // Add error handling for missing assets
+        document.querySelectorAll('img').forEach(img => {
+            img.onerror = function() {
+                this.src = 'assets/placeholder.svg';
+                console.warn('Failed to load image:', this.src);
+            };
+        });
+
+        // Add category click handlers
+        document.querySelectorAll('.category-card, .featured-card').forEach(card => {
+            card.addEventListener('click', () => {
+                if (checkSession()) {
+                    const title = card.querySelector('.category-title, .featured-title').textContent;
+                    // Add smooth transition effect
+                    card.style.transform = 'scale(0.98)';
+                    setTimeout(() => {
+                        card.style.transform = '';
+                        // Navigate to category page (to be implemented)
+                        console.log(`Navigating to category: ${title}`);
+                    }, 150);
+                }
+            });
+        });
+
+        // Add hover sound effect (subtle feedback)
+        document.querySelectorAll('.category-card, .featured-card').forEach(card => {
+            card.addEventListener('mouseenter', () => {
+                if (window.hoverSound) {
+                    window.hoverSound.play();
+                }
+            });
+        });
+
+        // Lazy load images
+        document.addEventListener('DOMContentLoaded', () => {
+            const images = document.querySelectorAll('img[data-src]');
+            const imageObserver = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const img = entry.target;
+                        img.src = img.dataset.src;
+                        img.removeAttribute('data-src');
+                        observer.unobserve(img);
+                    }
+                });
+            });
+
+            images.forEach(img => imageObserver.observe(img));
+        });
+
+        // Add search functionality
+        const searchInput = document.querySelector('.search-bar input');
+        let searchTimeout;
+
+        searchInput.addEventListener('input', (e) => {
+            clearTimeout(searchTimeout);
+            searchTimeout = setTimeout(() => {
+                const query = e.target.value.trim();
+                if (query) {
+                    // Store search query and redirect to search results
+                    sessionStorage.setItem('searchQuery', query);
+                    window.location.href = `medicines.html?search=${encodeURIComponent(query)}`;
+                }
+            }, 500);
+        });
+
+        // Handle category navigation
+        document.querySelectorAll('.category-card').forEach(card => {
+            card.addEventListener('click', () => {
+                const category = card.querySelector('.category-title').textContent;
+                window.location.href = `medicines.html?category=${encodeURIComponent(category)}`;
+            });
+        });
+
+        // Add cart badge update
+        function updateCartBadge() {
+            const cartItems = JSON.parse(localStorage.getItem('cartItems') || '[]');
+            const cartBadge = document.createElement('span');
+            cartBadge.className = 'cart-badge';
+            cartBadge.textContent = cartItems.length;
+            
+            const cartLink = document.querySelector('.nav-item[href="cart.html"]');
+            const existingBadge = cartLink.querySelector('.cart-badge');
+            
+            if (existingBadge) {
+                existingBadge.remove();
+            }
+            
+            if (cartItems.length > 0) {
+                cartLink.appendChild(cartBadge);
+            }
+        }
+
+        // Add cart badge styles
+        const style = document.createElement('style');
+        style.textContent = `
+            .cart-badge {
+                background: var(--accent);
+                color: white;
+                width: 20px;
+                height: 20px;
+                border-radius: 50%;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                font-size: 12px;
+                position: absolute;
+                top: 8px;
+                right: 8px;
+            }
+
+            .nav-item {
+                position: relative;
+            }
+        `;
+        document.head.appendChild(style);
+
+        // Initialize cart badge
+        updateCartBadge();
+
+        // Listen for cart updates
+        window.addEventListener('storage', (e) => {
+            if (e.key === 'cartItems') {
+                updateCartBadge();
+            }
+        });
+    </script>
+</body>
+</html> 

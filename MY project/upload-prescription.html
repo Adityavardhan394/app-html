@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MediQuick - Upload Prescription</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <header class="app-header">
+            <h1>MediQuick</h1>
+            <p class="subtitle">Upload Prescription</p>
+        </header>
+
+        <main class="upload-section">
+            <div class="upload-info">
+                <p>Upload your prescription to get medicine suggestions</p>
+                <p class="upload-specs">Supported formats: JPG, PNG, PDF</p>
+                <p class="upload-specs">Max file size: 5MB</p>
+            </div>
+
+            <div class="upload-options">
+                <div class="upload-option" onclick="openCamera()">
+                    <i class="material-icons">camera_alt</i>
+                    <span>Use Camera</span>
+                </div>
+                <div class="upload-option" onclick="openFileUpload()">
+                    <i class="material-icons">upload_file</i>
+                    <span>Upload File</span>
+                </div>
+            </div>
+
+            <input type="file" id="fileUpload" accept="image/*, application/pdf" style="display: none">
+            
+            <div id="preview-container" style="display: none">
+                <img id="preview-image" alt="Preview">
+                <button class="primary-button" onclick="submitPrescription()">Submit Prescription</button>
+            </div>
+        </main>
+    </div>
+    <script src="js/upload.js"></script>
+</body>
+</html> 

@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>MediQuick - Order Placed</title>
+  <style>
+    body { font-family: Arial, sans-serif; background: #f6f8fa; margin: 0; }
+    .container { max-width: 400px; margin: 60px auto; background: #fff; border-radius: 10px; box-shadow: 0 2px 8px #0001; padding: 32px 24px; text-align: center; }
+    h2 { color: #43a047; }
+    .timer { font-size: 2rem; color: #1a73e8; margin: 18px 0; }
+    .order-list { text-align: left; margin: 18px 0; }
+    .btn { background: #1a73e8; color: #fff; border: none; padding: 10px 18px; border-radius: 5px; font-size: 1rem; cursor: pointer; margin-top: 18px; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>Order Placed!</h2>
+    <div class="timer" id="timer">10:00</div>
+    <div class="order-list" id="orderList"></div>
+    <p>Your medicines will be delivered in 10 minutes.</p>
+    <button class="btn" onclick="window.location.href='dashboard.html'">Order More</button>
+    <button class="btn" onclick="logout()" style="background:#e53935;">Logout</button>
+  </div>
+  <script>
+    // Redirect if not logged in
+    if (!localStorage.getItem('mediquick_logged_in')) window.location.href = 'index.html';
+
+    // Medicine data
+    const medicines = [
+      { id: 1, name: 'Paracetamol 500mg', price: 30 },
+      { id: 2, name: 'Azithromycin 250mg', price: 120 },
+      { id: 3, name: 'Cetirizine 10mg', price: 25 },
+      { id: 4, name: 'Dolo 650', price: 35 },
+      { id: 5, name: 'ORS Sachet', price: 15 },
+      { id: 6, name: 'Cough Syrup', price: 60 },
+      { id: 7, name: 'Vitamin C Tablets', price: 80 },
+      { id: 8, name: 'Bandage', price: 20 }
+    ];
+
+    // Show order summary
+    const orderList = document.getElementById('orderList');
+    let cart = JSON.parse(localStorage.getItem('mediquick_cart')||'[]');
+    let total = 0;
+    orderList.innerHTML = '<b>Order Summary:</b><ul>' + cart.map(id => {
+      const med = medicines.find(m=>m.id===id);
+      if (med) { total += med.price; return `<li>${med.name} - ₹${med.price}</li>`; }
+      return '';
+    }).join('') + `</ul><b>Total: ₹${total}</b>`;
+    localStorage.setItem('mediquick_cart', '[]');
+
+    // Timer logic
+    let mins = 10, secs = 0;
+    const timerDiv = document.getElementById('timer');
+    function updateTimer() {
+      if (mins === 0 && secs === 0) {
+        timerDiv.textContent = 'Delivered!';
+        return;
+      }
+      timerDiv.textContent = `${String(mins).padStart(2,'0')}:${String(secs).padStart(2,'0')}`;
+      if (secs === 0) { mins--; secs = 59; }
+      else secs--;
+      setTimeout(updateTimer, 1000);
+    }
+    updateTimer();
+
+    // Logout function
+    function logout() {
+      localStorage.removeItem('mediquick_logged_in');
+      window.location.href = 'index.html';
+    }
+    window.logout = logout;
+  </script>
+</body>
+</html>

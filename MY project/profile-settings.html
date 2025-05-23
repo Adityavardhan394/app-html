@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MediQuick - Profile & Settings</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <header class="app-header">
+            <h1>Profile & Settings</h1>
+            <p class="subtitle">Manage your account</p>
+        </header>
+
+        <main class="settings-container">
+            <nav class="settings-nav">
+                <a href="#profile" class="nav-item active">
+                    <i class="material-icons">person</i>
+                    Profile
+                </a>
+                <a href="#addresses" class="nav-item">
+                    <i class="material-icons">location_on</i>
+                    Addresses
+                </a>
+                <a href="#payments" class="nav-item">
+                    <i class="material-icons">payment</i>
+                    Payments
+                </a>
+                <a href="#orders" class="nav-item">
+                    <i class="material-icons">receipt_long</i>
+                    Orders
+                </a>
+                <a href="#subscription" class="nav-item">
+                    <i class="material-icons">card_membership</i>
+                    Subscription
+                </a>
+                <a href="#help" class="nav-item">
+                    <i class="material-icons">help</i>
+                    Help Center
+                </a>
+            </nav>
+
+            <div class="settings-content">
+                <section id="profile" class="settings-section active">
+                    <div class="profile-header">
+                        <div class="profile-image">
+                            <img src="assets/profile-placeholder.jpg" alt="Profile Picture" id="profile-pic">
+                            <button class="edit-photo" onclick="document.getElementById('photo-upload').click()">
+                                <i class="material-icons">edit</i>
+                            </button>
+                            <input type="file" id="photo-upload" accept="image/*" style="display: none">
+                        </div>
+                    </div>
+
+                    <form id="profile-form" class="settings-form">
+                        <div class="form-group">
+                            <label for="full-name">Full Name</label>
+                            <input type="text" id="full-name" value="John Doe" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="email">Email</label>
+                            <input type="email" id="email" value="john.doe@example.com" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="phone">Phone</label>
+                            <input type="tel" id="phone" value="+1 234 567 890" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="dob">Date of Birth</label>
+                            <input type="date" id="dob" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="gender">Gender</label>
+                            <select id="gender" required>
+                                <option value="male">Male</option>
+                                <option value="female">Female</option>
+                                <option value="other">Other</option>
+                                <option value="prefer-not">Prefer not to say</option>
+                            </select>
+                        </div>
+
+                        <button type="submit" class="primary-button">Save Changes</button>
+                    </form>
+                </section>
+
+                <section id="addresses" class="settings-section">
+                    <div class="address-list">
+                        <div class="address-card">
+                            <div class="address-type">Home</div>
+                            <p>123 Main Street</p>
+                            <p>Apt 4B</p>
+                            <p>New York, NY 10001</p>
+                            <div class="address-actions">
+                                <button class="edit-button">
+                                    <i class="material-icons">edit</i>
+                                    Edit
+                                </button>
+                                <button class="delete-button">
+                                    <i class="material-icons">delete</i>
+                                    Delete
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <button class="add-address-button" onclick="openAddAddressModal()">
+                        <i class="material-icons">add</i>
+                        Add New Address
+                    </button>
+                </section>
+            </div>
+        </main>
+    </div>
+    <script src="js/profile.js"></script>
+</body>
+</html> 

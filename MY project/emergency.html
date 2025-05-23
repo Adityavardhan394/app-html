@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Emergency SOS - MediQuick</title>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"/>
+    <link rel="stylesheet" href="css/styles.css"/>
+    <style>
+        .emergency-container {
+            max-width: 1200px;
+            margin: 40px auto;
+            padding: 32px;
+        }
+
+        .sos-header {
+            text-align: center;
+            margin-bottom: 40px;
+            animation: fadeIn 0.5s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .sos-title {
+            font-size: 36px;
+            color: var(--text-dark);
+            margin-bottom: 16px;
+        }
+
+        .sos-subtitle {
+            color: var(--text-light);
+            font-size: 18px;
+        }
+
+        .emergency-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 24px;
+            margin-bottom: 40px;
+        }
+
+        .sos-card {
+            background: var(--white);
+            border-radius: 24px;
+            padding: 32px;
+            box-shadow: var(--shadow);
+            transition: all 0.3s ease;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .sos-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-hover);
+        }
+
+        .sos-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: var(--accent);
+        }
+
+        .urgent-card::before {
+            background: #dc3545;
+        }
+
+        .sos-icon {
+            width: 64px;
+            height: 64px;
+            background: var(--primary-light);
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 24px;
+        }
+
+        .sos-icon i {
+            font-size: 32px;
+            color: var(--primary);
+        }
+
+        .urgent-icon {
+            background: rgba(220, 53, 69, 0.1);
+        }
+
+        .urgent-icon i {
+            color: #dc3545;
+        }
+
+        .sos-card h3 {
+            font-size: 24px;
+            color: var(--text-dark);
+            margin-bottom: 12px;
+        }
+
+        .sos-card p {
+            color: var(--text-light);
+            margin-bottom: 24px;
+        }
+
+        .sos-button {
+            padding: 16px 32px;
+            border-radius: 12px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            width: 100%;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .primary-sos {
+            background: var(--primary);
+            color: white;
+        }
+
+        .primary-sos:hover {
+            background: var(--primary-dark);
+            transform: translateY(-2px);
+        }
+
+        .urgent-sos {
+            background: #dc3545;
+            color: white;
+        }
+
+        .urgent-sos:hover {
+            background: #c82333;
+            transform: translateY(-2px);
+        }
+
+        .location-section {
+            background: var(--white);
+            border-radius: 24px;
+            padding: 32px;
+            box-shadow: var(--shadow);
+            margin-bottom: 40px;
+        }
+
+        .location-header {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+
+        .location-header i {
+            font-size: 32px;
+            color: var(--primary);
+        }
+
+        .location-title {
+            font-size: 24px;
+            color: var(--text-dark);
+        }
+
+        .location-map {
+            height: 300px;
+            background: #f8f9fa;
+            border-radius: 16px;
+            margin-bottom: 24px;
+            position: relative;
+        }
+
+        .location-actions {
+            display: flex;
+            gap: 16px;
+        }
+
+        .location-btn {
+            padding: 12px 24px;
+            border-radius: 12px;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .primary-btn {
+            background: var(--primary);
+            color: white;
+            border: none;
+        }
+
+        .outline-btn {
+            background: transparent;
+            color: var(--primary);
+            border: 2px solid var(--primary);
+        }
+
+        .emergency-contacts {
+            background: var(--white);
+            border-radius: 24px;
+            padding: 32px;
+            box-shadow: var(--shadow);
+        }
+
+        .contacts-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 24px;
+            margin-top: 24px;
+        }
+
+        .contact-card {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            padding: 16px;
+            border-radius: 12px;
+            background: #f8f9fa;
+            transition: all 0.3s ease;
+        }
+
+        .contact-card:hover {
+            background: var(--primary-light);
+        }
+
+        .contact-icon {
+            width: 48px;
+            height: 48px;
+            background: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .contact-icon i {
+            font-size: 24px;
+            color: var(--primary);
+        }
+
+        .contact-info h4 {
+            color: var(--text-dark);
+            margin-bottom: 4px;
+        }
+
+        .contact-info p {
+            color: var(--text-light);
+            font-size: 14px;
+        }
+
+        .pulse-animation {
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+
+        @media (max-width: 768px) {
+            .emergency-container {
+                padding: 16px;
+            }
+
+            .sos-title {
+                font-size: 28px;
+            }
+
+            .location-actions {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="emergency-container">
+        <div class="sos-header">
+            <h1 class="sos-title">Emergency Medical Services</h1>
+            <p class="sos-subtitle">Quick access to urgent medical needs</p>
+        </div>
+
+        <div class="emergency-grid">
+            <div class="sos-card urgent-card">
+                <div class="sos-icon urgent-icon">
+                    <i class="material-icons">emergency</i>
+                </div>
+                <h3>Emergency SOS</h3>
+                <p>Immediate medical attention required? Get medicines delivered within 30 minutes.</p>
+                <button class="sos-button urgent-sos pulse-animation" onclick="handleEmergencySOS()">
+                    <i class="material-icons">warning</i>
+                    Send Emergency SOS
+                </button>
+            </div>
+
+            <div class="sos-card">
+                <div class="sos-icon">
+                    <i class="material-icons">medical_services</i>
+                </div>
+                <h3>Quick Medicine Order</h3>
+                <p>Need medicines urgently? Place a priority order for faster delivery.</p>
+                <button class="sos-button primary-sos" onclick="handleQuickOrder()">
+                    <i class="material-icons">speed</i>
+                    Place Quick Order
+                </button>
+            </div>
+
+            <div class="sos-card">
+                <div class="sos-icon">
+                    <i class="material-icons">support_agent</i>
+                </div>
+                <h3>24/7 Medical Support</h3>
+                <p>Connect with our medical experts for immediate assistance.</p>
+                <button class="sos-button primary-sos" onclick="handleSupport()">
+                    <i class="material-icons">headset_mic</i>
+                    Connect to Support
+                </button>
+            </div>
+        </div>
+
+        <div class="location-section">
+            <div class="location-header">
+                <i class="material-icons">location_on</i>
+                <h2 class="location-title">Your Location</h2>
+            </div>
+            <div class="location-map" id="locationMap">
+                <div style="text-align: center; padding-top: 120px;">
+                    <i class="material-icons" style="font-size: 48px; color: var(--text-light);">map</i>
+                    <p style="margin-top: 16px; color: var(--text-light);">Loading your location...</p>
+                </div>
+            </div>
+            <div class="location-actions">
+                <button class="location-btn primary-btn" onclick="updateLocation()">
+                    <i class="material-icons">my_location</i>
+                    Update Location
+                </button>
+                <button class="location-btn outline-btn" onclick="editAddress()">
+                    <i class="material-icons">edit</i>
+                    Edit Address
+                </button>
+            </div>
+        </div>
+
+        <div class="emergency-contacts">
+            <h2 style="color: var(--text-dark); margin-bottom: 16px;">Emergency Contacts</h2>
+            <p style="color: var(--text-light); margin-bottom: 24px;">Quick access to emergency services</p>
+            <div class="contacts-list">
+                <div class="contact-card">
+                    <div class="contact-icon">
+                        <i class="material-icons">local_hospital</i>
+                    </div>
+                    <div class="contact-info">
+                        <h4>Ambulance</h4>
+                        <p>102</p>
+                    </div>
+                </div>
+                <div class="contact-card">
+                    <div class="contact-icon">
+                        <i class="material-icons">local_police</i>
+                    </div>
+                    <div class="contact-info">
+                        <h4>Police</h4>
+                        <p>100</p>
+                    </div>
+                </div>
+                <div class="contact-card">
+                    <div class="contact-icon">
+                        <i class="material-icons">health_and_safety</i>
+                    </div>
+                    <div class="contact-info">
+                        <h4>Medical Helpline</h4>
+                        <p>108</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Handle Emergency SOS
+        function handleEmergencySOS() {
+            if (confirm('This will send an emergency alert to our medical team. Continue?')) {
+                // Get user's location
+                if (navigator.geolocation) {
+                    navigator.geolocation.getCurrentPosition(
+                        (position) => {
+                            const location = {
+                                lat: position.coords.latitude,
+                                lng: position.coords.longitude
+                            };
+                            // Store location and create emergency request
+                            localStorage.setItem('emergencyLocation', JSON.stringify(location));
+                            alert('Emergency alert sent! Our team will contact you immediately.');
+                            // Redirect to emergency tracking page
+                            window.location.href = 'emergency-tracking.html';
+                        },
+                        (error) => {
+                            console.error('Error getting location:', error);
+                            alert('Please enable location services for emergency assistance');
+                        }
+                    );
+                } else {
+                    alert('Location services not supported by your browser');
+                }
+            }
+        }
+
+        // Handle Quick Order
+        function handleQuickOrder() {
+            window.location.href = 'medicines.html?priority=true';
+        }
+
+        // Handle Support
+        function handleSupport() {
+            // Implement support chat/call functionality
+            alert('Connecting to medical support...');
+        }
+
+        // Update Location
+        function updateLocation() {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(
+                    (position) => {
+                        const location = {
+                            lat: position.coords.latitude,
+                            lng: position.coords.longitude
+                        };
+                        localStorage.setItem('userLocation', JSON.stringify(location));
+                        alert('Location updated successfully!');
+                    },
+                    (error) => {
+                        console.error('Error getting location:', error);
+                        alert('Please enable location services');
+                    }
+                );
+            }
+        }
+
+        // Edit Address
+        function editAddress() {
+            // Implement address editing functionality
+            window.location.href = 'profile.html?section=addresses';
+        }
+
+        // Initialize emergency features
+        document.addEventListener('DOMContentLoaded', () => {
+            // Check for existing emergency
+            const activeEmergency = localStorage.getItem('activeEmergency');
+            if (activeEmergency) {
+                window.location.href = 'emergency-tracking.html';
+            }
+
+            // Update location on load
+            updateLocation();
+        });
+    </script>
+</body>
+</html> 

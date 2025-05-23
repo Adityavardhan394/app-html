@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MediQuick - Order Tracking</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <header class="app-header">
+            <h1>Order Tracking</h1>
+            <p class="subtitle">Order #MOB271</p>
+        </header>
+
+        <main>
+            <div class="order-tracking">
+                <div class="tracking-header">
+                    <div class="delivery-time">
+                        <h3>Estimated Delivery Time</h3>
+                        <p class="time">25mins</p>
+                    </div>
+                    <div class="delivery-status">
+                        <span class="status-badge">On the way</span>
+                    </div>
+                </div>
+
+                <div class="tracking-steps">
+                    <div class="tracking-step completed">
+                        <h4>Order Confirmed</h4>
+                        <p class="time">10:30 AM</p>
+                    </div>
+                    <div class="tracking-step completed">
+                        <h4>Order Picked Up</h4>
+                        <p class="time">10:45 AM</p>
+                    </div>
+                    <div class="tracking-step active">
+                        <h4>On the way</h4>
+                        <p class="location">Crossing Main Street</p>
+                    </div>
+                    <div class="tracking-step">
+                        <h4>Delivered</h4>
+                        <p class="time">-</p>
+                    </div>
+                </div>
+
+                <div class="delivery-partner">
+                    <div class="partner-info">
+                        <img src="assets/delivery-partner.jpg" alt="Delivery Partner" class="partner-image">
+                        <div class="partner-details">
+                            <h4>Your Delivery Partner</h4>
+                            <p>Alex Kumar</p>
+                        </div>
+                    </div>
+                    <button class="contact-button">
+                        <i class="material-icons">chat</i>
+                    </button>
+                </div>
+
+                <div class="order-details">
+                    <h3>Order Details</h3>
+                    <div class="medicine-list">
+                        <div class="medicine-item">
+                            <span class="medicine-name">Dolo 650mg</span>
+                            <span class="medicine-qty">Qty: 2</span>
+                        </div>
+                        <div class="medicine-item">
+                            <span class="medicine-name">B-Complex</span>
+                            <span class="medicine-qty">Qty: 1</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="action-buttons">
+                <button class="secondary-button">
+                    <i class="material-icons">support_agent</i>
+                    Need Help?
+                </button>
+                <button class="primary-button">
+                    <i class="material-icons">receipt_long</i>
+                    View Bill
+                </button>
+            </div>
+        </main>
+    </div>
+    <script src="js/tracking.js"></script>
+</body>
+</html> 

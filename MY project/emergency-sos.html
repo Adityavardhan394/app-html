@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MediQuick - Emergency SOS</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+</head>
+<body>
+    <div class="container emergency-container">
+        <header class="app-header emergency-header">
+            <div class="sos-badge">
+                <i class="material-icons">emergency</i>
+                Emergency SOS
+            </div>
+            <p class="subtitle">Quick access to emergency services</p>
+        </header>
+
+        <main>
+            <div class="emergency-actions">
+                <button class="emergency-button medicine-button" onclick="location.href='emergency-medicine.html'">
+                    <i class="material-icons">medical_services</i>
+                    Emergency Medicine
+                </button>
+                <button class="emergency-button ambulance-button" onclick="location.href='tel:911'">
+                    <i class="material-icons">emergency</i>
+                    Call Ambulance
+                </button>
+            </div>
+
+            <section class="emergency-medicines">
+                <h3>Recent Emergency Medicines</h3>
+                <div class="medicine-chips">
+                    <div class="medicine-chip">
+                        <span class="medicine-name">Aspirin 81mg</span>
+                        <span class="emergency-tag">Emergency</span>
+                    </div>
+                    <div class="medicine-chip">
+                        <span class="medicine-name">Nitroglycerin</span>
+                        <span class="emergency-tag">Emergency</span>
+                    </div>
+                    <div class="medicine-chip">
+                        <span class="medicine-name">EpiPen</span>
+                        <span class="emergency-tag">Emergency</span>
+                    </div>
+                </div>
+            </section>
+
+            <section class="nearby-pharmacies">
+                <h3>Nearby Pharmacies</h3>
+                <div class="pharmacy-list">
+                    <div class="pharmacy-card">
+                        <div class="pharmacy-info">
+                            <h4>LifeCare Pharmacy</h4>
+                            <p>0.5 miles away</p>
+                            <span class="status-open">open</span>
+                        </div>
+                        <button class="call-button" onclick="location.href='tel:+1234567890'">
+                            Call Pharmacy
+                        </button>
+                    </div>
+
+                    <div class="pharmacy-card">
+                        <div class="pharmacy-info">
+                            <h4>MedExpress</h4>
+                            <p>0.8 miles away</p>
+                            <span class="status-open">open</span>
+                        </div>
+                        <button class="call-button" onclick="location.href='tel:+1234567891'">
+                            Call Pharmacy
+                        </button>
+                    </div>
+
+                    <div class="pharmacy-card">
+                        <div class="pharmacy-info">
+                            <h4>QuickMeds</h4>
+                            <p>1.2 miles away</p>
+                            <span class="status-closed">closed</span>
+                        </div>
+                        <button class="call-button" onclick="location.href='tel:+1234567892'">
+                            Call Pharmacy
+                        </button>
+                    </div>
+                </div>
+            </section>
+
+            <div class="emergency-contacts">
+                <h3>Emergency Contacts</h3>
+                <button class="add-contact-button" onclick="openAddContactModal()">
+                    <i class="material-icons">add</i>
+                    Add Emergency Contact
+                </button>
+            </div>
+        </main>
+    </div>
+    <script src="js/emergency.js"></script>
+</body>
+</html> 

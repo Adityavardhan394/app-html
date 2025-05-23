@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Upload Prescription - MediQuick</title>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"/>
+    <link rel="stylesheet" href="css/styles.css"/>
+    <style>
+        .upload-container {
+            max-width: 800px;
+            margin: 40px auto;
+            padding: 32px;
+            background: var(--white);
+            border-radius: 24px;
+            box-shadow: var(--shadow);
+        }
+
+        .upload-header {
+            text-align: center;
+            margin-bottom: 32px;
+        }
+
+        .upload-header h1 {
+            font-size: 32px;
+            color: var(--text-dark);
+            margin-bottom: 12px;
+        }
+
+        .upload-header p {
+            color: var(--text-light);
+            font-size: 16px;
+        }
+
+        .upload-area {
+            border: 2px dashed var(--primary-light);
+            border-radius: 16px;
+            padding: 40px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .upload-area:hover {
+            border-color: var(--primary);
+            background: var(--primary-light);
+        }
+
+        .upload-area i {
+            font-size: 48px;
+            color: var(--primary);
+            margin-bottom: 16px;
+        }
+
+        .upload-text {
+            font-size: 18px;
+            color: var(--text-dark);
+            margin-bottom: 8px;
+        }
+
+        .upload-subtext {
+            color: var(--text-light);
+            font-size: 14px;
+        }
+
+        .upload-preview {
+            margin-top: 24px;
+            display: none;
+        }
+
+        .preview-image {
+            max-width: 100%;
+            border-radius: 12px;
+            box-shadow: var(--shadow);
+        }
+
+        .upload-actions {
+            margin-top: 24px;
+            display: flex;
+            gap: 16px;
+            justify-content: center;
+        }
+
+        .upload-btn {
+            padding: 12px 24px;
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-weight: 500;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.3s ease;
+        }
+
+        .upload-btn:hover {
+            background: var(--primary-dark);
+            transform: translateY(-2px);
+        }
+
+        .cancel-btn {
+            padding: 12px 24px;
+            background: #f8f9fa;
+            color: var(--text-dark);
+            border: none;
+            border-radius: 12px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .cancel-btn:hover {
+            background: #e9ecef;
+        }
+
+        .guidelines {
+            margin-top: 40px;
+            padding: 24px;
+            background: #f8f9fa;
+            border-radius: 16px;
+        }
+
+        .guidelines h3 {
+            color: var(--text-dark);
+            margin-bottom: 16px;
+            font-size: 18px;
+        }
+
+        .guidelines ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .guidelines li {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            color: var(--text-light);
+            margin-bottom: 12px;
+        }
+
+        .guidelines i {
+            color: var(--primary);
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 4px;
+            background: #e9ecef;
+            border-radius: 2px;
+            margin-top: 24px;
+            overflow: hidden;
+            display: none;
+        }
+
+        .progress {
+            width: 0%;
+            height: 100%;
+            background: var(--primary);
+            transition: width 0.3s ease;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+
+        .uploading .upload-area {
+            animation: pulse 1.5s infinite;
+        }
+    </style>
+</head>
+<body>
+    <div class="upload-container">
+        <div class="upload-header">
+            <h1>Upload Prescription</h1>
+            <p>Upload your prescription and we'll deliver your medicines within 2 hours</p>
+        </div>
+
+        <div class="upload-area" id="uploadArea">
+            <i class="material-icons">cloud_upload</i>
+            <div class="upload-text">Drag & Drop your prescription here</div>
+            <div class="upload-subtext">or click to browse files</div>
+            <input type="file" id="fileInput" accept="image/*,.pdf" style="display: none">
+        </div>
+
+        <div class="upload-preview" id="previewArea">
+            <img src="" alt="Preview" class="preview-image" id="previewImage">
+        </div>
+
+        <div class="progress-bar" id="progressBar">
+            <div class="progress" id="progress"></div>
+        </div>
+
+        <div class="upload-actions">
+            <button class="upload-btn" id="uploadBtn">
+                <i class="material-icons">upload_file</i>
+                Upload Prescription
+            </button>
+            <button class="cancel-btn" id="cancelBtn">Cancel</button>
+        </div>
+
+        <div class="guidelines">
+            <h3>Prescription Guidelines</h3>
+            <ul>
+                <li>
+                    <i class="material-icons">check_circle</i>
+                    Clear and readable prescription from a registered doctor
+                </li>
+                <li>
+                    <i class="material-icons">check_circle</i>
+                    Patient details and date should be visible
+                </li>
+                <li>
+                    <i class="material-icons">check_circle</i>
+                    Supported formats: JPG, PNG, PDF (max 5MB)
+                </li>
+                <li>
+                    <i class="material-icons">check_circle</i>
+                    Prescription should not be older than 6 months
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <script>
+        const uploadArea = document.getElementById('uploadArea');
+        const fileInput = document.getElementById('fileInput');
+        const previewArea = document.getElementById('previewArea');
+        const previewImage = document.getElementById('previewImage');
+        const progressBar = document.getElementById('progressBar');
+        const progress = document.getElementById('progress');
+        const uploadBtn = document.getElementById('uploadBtn');
+        const cancelBtn = document.getElementById('cancelBtn');
+
+        // Handle drag and drop
+        uploadArea.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            uploadArea.style.borderColor = 'var(--primary)';
+            uploadArea.style.background = 'var(--primary-light)';
+        });
+
+        uploadArea.addEventListener('dragleave', (e) => {
+            e.preventDefault();
+            uploadArea.style.borderColor = 'var(--primary-light)';
+            uploadArea.style.background = 'transparent';
+        });
+
+        uploadArea.addEventListener('drop', (e) => {
+            e.preventDefault();
+            const file = e.dataTransfer.files[0];
+            handleFile(file);
+        });
+
+        // Handle click to upload
+        uploadArea.addEventListener('click', () => {
+            fileInput.click();
+        });
+
+        fileInput.addEventListener('change', (e) => {
+            const file = e.target.files[0];
+            handleFile(file);
+        });
+
+        function handleFile(file) {
+            if (file && (file.type.startsWith('image/') || file.type === 'application/pdf')) {
+                if (file.size <= 5 * 1024 * 1024) { // 5MB limit
+                    const reader = new FileReader();
+                    reader.onload = (e) => {
+                        previewImage.src = e.target.result;
+                        previewArea.style.display = 'block';
+                        progressBar.style.display = 'block';
+                        simulateUpload();
+                    };
+                    reader.readAsDataURL(file);
+                } else {
+                    alert('File size should not exceed 5MB');
+                }
+            } else {
+                alert('Please upload a valid image or PDF file');
+            }
+        }
+
+        function simulateUpload() {
+            let width = 0;
+            const interval = setInterval(() => {
+                if (width >= 100) {
+                    clearInterval(interval);
+                    setTimeout(() => {
+                        alert('Prescription uploaded successfully! Our pharmacist will verify and process your order.');
+                        window.location.href = 'medicines.html';
+                    }, 500);
+                } else {
+                    width++;
+                    progress.style.width = width + '%';
+                }
+            }, 20);
+        }
+
+        cancelBtn.addEventListener('click', () => {
+            if (confirm('Are you sure you want to cancel the upload?')) {
+                window.location.href = 'app.html';
+            }
+        });
+    </script>
+</body>
+</html> 

@@ -1,0 +1,710 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Medicine Store - MediQuick</title>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"/>
+    <link rel="stylesheet" href="css/styles.css"/>
+    <style>
+        .store-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 32px;
+            display: grid;
+            grid-template-columns: 280px 1fr;
+            gap: 32px;
+        }
+
+        /* Filters Panel */
+        .filters-panel {
+            background: var(--white);
+            border-radius: 24px;
+            padding: 24px;
+            height: fit-content;
+            position: sticky;
+            top: 32px;
+        }
+
+        .filter-section {
+            margin-bottom: 24px;
+        }
+
+        .filter-section:last-child {
+            margin-bottom: 0;
+        }
+
+        .filter-title {
+            font-size: 18px;
+            color: var(--text-dark);
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .filter-options {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .filter-option {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--text-light);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .filter-option:hover {
+            color: var(--primary);
+        }
+
+        .filter-checkbox {
+            width: 20px;
+            height: 20px;
+            border: 2px solid var(--text-light);
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+
+        .filter-option:hover .filter-checkbox {
+            border-color: var(--primary);
+        }
+
+        .filter-checkbox.checked {
+            background: var(--primary);
+            border-color: var(--primary);
+        }
+
+        .filter-checkbox.checked i {
+            color: white;
+            font-size: 16px;
+        }
+
+        .price-range {
+            display: flex;
+            gap: 16px;
+            margin-top: 12px;
+        }
+
+        .price-input {
+            flex: 1;
+            padding: 8px 12px;
+            border: 1px solid var(--text-light);
+            border-radius: 8px;
+            font-size: 14px;
+        }
+
+        /* Main Content */
+        .main-content {
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+        }
+
+        .store-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .store-title {
+            font-size: 28px;
+            color: var(--text-dark);
+        }
+
+        .sort-dropdown {
+            padding: 12px;
+            border: 1px solid var(--text-light);
+            border-radius: 12px;
+            background: var(--white);
+            color: var(--text-dark);
+            font-size: 14px;
+            cursor: pointer;
+        }
+
+        /* Product Grid */
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 24px;
+        }
+
+        .product-card {
+            background: var(--white);
+            border-radius: 16px;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            position: relative;
+        }
+
+        .product-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-hover);
+        }
+
+        .product-image {
+            height: 200px;
+            width: 100%;
+            object-fit: contain;
+            border-radius: 12px;
+            background: #f8f9fa;
+            padding: 20px;
+        }
+
+        .product-details {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .product-name {
+            font-size: 18px;
+            color: var(--text-dark);
+            font-weight: 600;
+        }
+
+        .product-category {
+            color: var(--primary);
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        .product-description {
+            color: var(--text-light);
+            font-size: 14px;
+            line-height: 1.4;
+        }
+
+        .product-price {
+            font-size: 20px;
+            color: var(--text-dark);
+            font-weight: 600;
+        }
+
+        .product-actions {
+            display: flex;
+            gap: 12px;
+        }
+
+        .add-to-cart {
+            flex: 1;
+            padding: 12px;
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-weight: 500;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            transition: all 0.3s ease;
+        }
+
+        .add-to-cart:hover {
+            background: var(--primary-dark);
+        }
+
+        .wishlist-btn {
+            width: 44px;
+            height: 44px;
+            border-radius: 12px;
+            border: 2px solid var(--primary-light);
+            background: transparent;
+            color: var(--primary);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+
+        .wishlist-btn:hover {
+            background: var(--primary-light);
+        }
+
+        .prescription-required {
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            background: rgba(220, 53, 69, 0.1);
+            color: #dc3545;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .prescription-required i {
+            font-size: 16px;
+        }
+
+        .stock-status {
+            position: absolute;
+            top: 12px;
+            left: 12px;
+            background: rgba(25, 135, 84, 0.1);
+            color: #198754;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .stock-status i {
+            font-size: 16px;
+        }
+
+        .out-of-stock {
+            background: rgba(220, 53, 69, 0.1);
+            color: #dc3545;
+        }
+
+        /* Search Results */
+        .search-results {
+            margin-bottom: 24px;
+        }
+
+        .results-info {
+            color: var(--text-light);
+            margin-bottom: 16px;
+        }
+
+        .active-filters {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin-bottom: 16px;
+        }
+
+        .filter-tag {
+            background: var(--primary-light);
+            color: var(--primary);
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .filter-tag:hover {
+            background: var(--primary);
+            color: white;
+        }
+
+        .filter-tag i {
+            font-size: 18px;
+        }
+
+        /* Pagination */
+        .pagination {
+            display: flex;
+            justify-content: center;
+            gap: 8px;
+            margin-top: 40px;
+        }
+
+        .page-btn {
+            width: 40px;
+            height: 40px;
+            border-radius: 12px;
+            border: 2px solid var(--primary-light);
+            background: transparent;
+            color: var(--primary);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+
+        .page-btn:hover,
+        .page-btn.active {
+            background: var(--primary);
+            color: white;
+        }
+
+        @media (max-width: 1024px) {
+            .store-container {
+                grid-template-columns: 1fr;
+            }
+
+            .filters-panel {
+                position: static;
+                margin-bottom: 24px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .store-container {
+                padding: 16px;
+            }
+
+            .products-grid {
+                grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="store-container">
+        <!-- Filters Panel -->
+        <aside class="filters-panel">
+            <div class="filter-section">
+                <h3 class="filter-title">
+                    <i class="material-icons">category</i>
+                    Categories
+                </h3>
+                <div class="filter-options">
+                    <label class="filter-option">
+                        <div class="filter-checkbox">
+                            <i class="material-icons">check</i>
+                        </div>
+                        Prescription Medicines
+                    </label>
+                    <label class="filter-option">
+                        <div class="filter-checkbox">
+                            <i class="material-icons">check</i>
+                        </div>
+                        Over-the-Counter
+                    </label>
+                    <label class="filter-option">
+                        <div class="filter-checkbox">
+                            <i class="material-icons">check</i>
+                        </div>
+                        Ayurvedic
+                    </label>
+                    <label class="filter-option">
+                        <div class="filter-checkbox">
+                            <i class="material-icons">check</i>
+                        </div>
+                        Healthcare Devices
+                    </label>
+                </div>
+            </div>
+
+            <div class="filter-section">
+                <h3 class="filter-title">
+                    <i class="material-icons">payments</i>
+                    Price Range
+                </h3>
+                <div class="price-range">
+                    <input type="number" class="price-input" placeholder="Min" min="0">
+                    <input type="number" class="price-input" placeholder="Max" min="0">
+                </div>
+            </div>
+
+            <div class="filter-section">
+                <h3 class="filter-title">
+                    <i class="material-icons">inventory_2</i>
+                    Availability
+                </h3>
+                <div class="filter-options">
+                    <label class="filter-option">
+                        <div class="filter-checkbox checked">
+                            <i class="material-icons">check</i>
+                        </div>
+                        In Stock
+                    </label>
+                    <label class="filter-option">
+                        <div class="filter-checkbox">
+                            <i class="material-icons">check</i>
+                        </div>
+                        Include Out of Stock
+                    </label>
+                </div>
+            </div>
+
+            <div class="filter-section">
+                <h3 class="filter-title">
+                    <i class="material-icons">local_offer</i>
+                    Offers
+                </h3>
+                <div class="filter-options">
+                    <label class="filter-option">
+                        <div class="filter-checkbox">
+                            <i class="material-icons">check</i>
+                        </div>
+                        Discounted Items
+                    </label>
+                    <label class="filter-option">
+                        <div class="filter-checkbox">
+                            <i class="material-icons">check</i>
+                        </div>
+                        Buy 1 Get 1
+                    </label>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <div class="store-header">
+                <h1 class="store-title">Medicine Store</h1>
+                <select class="sort-dropdown">
+                    <option value="relevance">Sort by: Relevance</option>
+                    <option value="price-low">Price: Low to High</option>
+                    <option value="price-high">Price: High to Low</option>
+                    <option value="popularity">Popularity</option>
+                </select>
+            </div>
+
+            <div class="search-results">
+                <div class="results-info">Showing 1-12 of 48 results</div>
+                <div class="active-filters">
+                    <div class="filter-tag">
+                        In Stock
+                        <i class="material-icons">close</i>
+                    </div>
+                    <div class="filter-tag">
+                        Price: ₹100 - ₹500
+                        <i class="material-icons">close</i>
+                    </div>
+                </div>
+            </div>
+
+            <div class="products-grid">
+                <!-- Product Card 1 -->
+                <div class="product-card">
+                    <div class="prescription-required">
+                        <i class="material-icons">description</i>
+                        Prescription Required
+                    </div>
+                    <div class="stock-status">
+                        <i class="material-icons">check_circle</i>
+                        In Stock
+                    </div>
+                    <img src="assets/products/medicine1.jpg" alt="Medicine" class="product-image">
+                    <div class="product-details">
+                        <div class="product-category">Prescription Medicine</div>
+                        <h3 class="product-name">Paracetamol 500mg</h3>
+                        <p class="product-description">Fever and pain relief medication</p>
+                        <div class="product-price">₹149.00</div>
+                    </div>
+                    <div class="product-actions">
+                        <button class="add-to-cart">
+                            <i class="material-icons">shopping_cart</i>
+                            Add to Cart
+                        </button>
+                        <button class="wishlist-btn">
+                            <i class="material-icons">favorite_border</i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Product Card 2 -->
+                <div class="product-card">
+                    <div class="stock-status">
+                        <i class="material-icons">check_circle</i>
+                        In Stock
+                    </div>
+                    <img src="assets/products/medicine2.jpg" alt="Medicine" class="product-image">
+                    <div class="product-details">
+                        <div class="product-category">Over-the-Counter</div>
+                        <h3 class="product-name">Vitamin C 1000mg</h3>
+                        <p class="product-description">Immunity booster supplements</p>
+                        <div class="product-price">₹299.00</div>
+                    </div>
+                    <div class="product-actions">
+                        <button class="add-to-cart">
+                            <i class="material-icons">shopping_cart</i>
+                            Add to Cart
+                        </button>
+                        <button class="wishlist-btn">
+                            <i class="material-icons">favorite_border</i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Product Card 3 -->
+                <div class="product-card">
+                    <div class="stock-status out-of-stock">
+                        <i class="material-icons">remove_circle</i>
+                        Out of Stock
+                    </div>
+                    <img src="assets/products/medicine3.jpg" alt="Medicine" class="product-image">
+                    <div class="product-details">
+                        <div class="product-category">Healthcare Devices</div>
+                        <h3 class="product-name">Digital Thermometer</h3>
+                        <p class="product-description">Accurate temperature measurement</p>
+                        <div class="product-price">₹199.00</div>
+                    </div>
+                    <div class="product-actions">
+                        <button class="add-to-cart" disabled style="opacity: 0.5;">
+                            <i class="material-icons">shopping_cart</i>
+                            Out of Stock
+                        </button>
+                        <button class="wishlist-btn">
+                            <i class="material-icons">favorite_border</i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pagination">
+                <button class="page-btn">
+                    <i class="material-icons">chevron_left</i>
+                </button>
+                <button class="page-btn active">1</button>
+                <button class="page-btn">2</button>
+                <button class="page-btn">3</button>
+                <button class="page-btn">
+                    <i class="material-icons">chevron_right</i>
+                </button>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        // Handle filter checkboxes
+        document.querySelectorAll('.filter-option').forEach(option => {
+            option.addEventListener('click', () => {
+                const checkbox = option.querySelector('.filter-checkbox');
+                checkbox.classList.toggle('checked');
+                updateFilters();
+            });
+        });
+
+        // Handle price range inputs
+        const priceInputs = document.querySelectorAll('.price-input');
+        priceInputs.forEach(input => {
+            input.addEventListener('change', updateFilters);
+        });
+
+        // Handle sort dropdown
+        document.querySelector('.sort-dropdown').addEventListener('change', (e) => {
+            sortProducts(e.target.value);
+        });
+
+        // Handle filter tags
+        document.querySelectorAll('.filter-tag').forEach(tag => {
+            tag.addEventListener('click', () => {
+                tag.remove();
+                updateFilters();
+            });
+        });
+
+        // Handle add to cart
+        document.querySelectorAll('.add-to-cart').forEach(button => {
+            button.addEventListener('click', (e) => {
+                if (!button.disabled) {
+                    const card = button.closest('.product-card');
+                    const productName = card.querySelector('.product-name').textContent;
+                    const productPrice = card.querySelector('.product-price').textContent;
+                    
+                    // Get existing cart items or initialize empty array
+                    const cartItems = JSON.parse(localStorage.getItem('cartItems') || '[]');
+                    
+                    // Add new item
+                    cartItems.push({
+                        name: productName,
+                        price: productPrice,
+                        quantity: 1
+                    });
+                    
+                    // Save updated cart
+                    localStorage.setItem('cartItems', JSON.stringify(cartItems));
+                    
+                    // Show confirmation
+                    alert(`${productName} added to cart!`);
+                    
+                    // Update cart badge
+                    updateCartBadge();
+                }
+            });
+        });
+
+        // Handle wishlist
+        document.querySelectorAll('.wishlist-btn').forEach(button => {
+            button.addEventListener('click', () => {
+                const icon = button.querySelector('i');
+                if (icon.textContent === 'favorite_border') {
+                    icon.textContent = 'favorite';
+                    button.style.background = 'var(--primary-light)';
+                } else {
+                    icon.textContent = 'favorite_border';
+                    button.style.background = 'transparent';
+                }
+            });
+        });
+
+        // Update filters
+        function updateFilters() {
+            // Get all checked filters
+            const checkedFilters = Array.from(document.querySelectorAll('.filter-checkbox.checked'))
+                .map(checkbox => checkbox.closest('.filter-option').textContent.trim());
+            
+            // Get price range
+            const minPrice = document.querySelector('.price-input[placeholder="Min"]').value;
+            const maxPrice = document.querySelector('.price-input[placeholder="Max"]').value;
+            
+            // Update active filters display
+            // This is a simplified version - in a real app, you'd make an API call
+            console.log('Active filters:', checkedFilters);
+            console.log('Price range:', minPrice, maxPrice);
+        }
+
+        // Sort products
+        function sortProducts(sortBy) {
+            // This would typically make an API call to sort products
+            console.log('Sorting by:', sortBy);
+        }
+
+        // Update cart badge
+        function updateCartBadge() {
+            const cartItems = JSON.parse(localStorage.getItem('cartItems') || '[]');
+            // This function would be implemented in your main navigation/layout
+            console.log('Cart items count:', cartItems.length);
+        }
+
+        // Initialize page
+        document.addEventListener('DOMContentLoaded', () => {
+            // Check for priority flag
+            const urlParams = new URLSearchParams(window.location.search);
+            if (urlParams.get('priority') === 'true') {
+                document.querySelector('.store-title').textContent = 'Priority Orders';
+                // Add priority badge or modify UI for priority orders
+            }
+
+            // Check for search query
+            const searchQuery = urlParams.get('search');
+            if (searchQuery) {
+                document.querySelector('.results-info').textContent = `Search results for "${searchQuery}"`;
+            }
+
+            // Check for category filter
+            const category = urlParams.get('category');
+            if (category) {
+                const categoryOption = Array.from(document.querySelectorAll('.filter-option'))
+                    .find(option => option.textContent.trim() === category);
+                if (categoryOption) {
+                    categoryOption.querySelector('.filter-checkbox').classList.add('checked');
+                    updateFilters();
+                }
+            }
+        });
+    </script>
+</body>
+</html> 
